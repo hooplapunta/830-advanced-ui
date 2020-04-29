@@ -18,6 +18,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 
+import ui.toolkit.behavior.Behavior;
 import ui.toolkit.behavior.BehaviorEvent;
 import ui.toolkit.behavior.ChoiceBehavior;
 import ui.toolkit.behavior.InteractiveWindowGroup;
@@ -140,8 +141,6 @@ public class TalkUI extends InteractiveWindowGroup {
                 try {
                     target[0] = getSelection().get(0);
                     System.out.println("found target: " + target[0]);
-                    // unregister the behavior from the drawing canvas
-                    // drawingPanel.removeBehavior(this);
                 } catch (Exception e) {
                     target[0] = null;
                     System.out.println("no target found");
@@ -153,6 +152,20 @@ public class TalkUI extends InteractiveWindowGroup {
 
         // add a choice behavior to the drawing canvas to locate the target object
         drawingPanel.addBehavior(cBehavior);
+
+        // wait till the target found
+        while (target[0] == null) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // unregister the behavior from the drawing canvas
+        drawingPanel.removeBehavior(cBehavior);
+
+        System.out.println("choice behavior unregistered.");
 
         return Pair.of(target[0], Pair.of(startEvent, stopEvent));
     }
