@@ -18,7 +18,6 @@ import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 
-import ui.toolkit.behavior.Behavior;
 import ui.toolkit.behavior.BehaviorEvent;
 import ui.toolkit.behavior.ChoiceBehavior;
 import ui.toolkit.behavior.InteractiveWindowGroup;
