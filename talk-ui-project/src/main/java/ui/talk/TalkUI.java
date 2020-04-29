@@ -13,6 +13,9 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 
 import javax.imageio.ImageIO;
 import javax.swing.JComponent;
@@ -136,13 +139,12 @@ public class TalkUI extends InteractiveWindowGroup {
             @Override
             public boolean stop(BehaviorEvent event) {
                 boolean eventConsumed = super.stop(event);
+
                 // get the selected graphical object
                 try {
                     target[0] = getSelection().get(0);
-                    System.out.println("found target: " + target[0]);
                 } catch (Exception e) {
                     target[0] = null;
-                    System.out.println("no target found");
                 }
 
                 return eventConsumed;
@@ -152,10 +154,13 @@ public class TalkUI extends InteractiveWindowGroup {
         // add a choice behavior to the drawing canvas to locate the target object
         drawingPanel.addBehavior(cBehavior);
 
-        // wait till the target found
-        while (target[0] == null) {
+        // wait till the target found or timeout happened
+        int failureCount = 0;
+        while (target[0] == null && failureCount < 6) {
             try {
                 Thread.sleep(1000);
+                failureCount += 1;
+                System.out.println("no target found for: " + failureCount + " seconds...");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -163,6 +168,12 @@ public class TalkUI extends InteractiveWindowGroup {
 
         // unregister the behavior from the drawing canvas
         drawingPanel.removeBehavior(cBehavior);
+
+        if (target[0] != null) {
+            System.out.println("found target: " + target[0]);
+        } else if (failureCount >= 6) {
+            System.out.println("timeout happened");
+        }
 
         System.out.println("choice behavior unregistered.");
 
