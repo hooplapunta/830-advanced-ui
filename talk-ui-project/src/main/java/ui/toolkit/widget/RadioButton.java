@@ -128,15 +128,28 @@ public class RadioButton extends SelectableEllipse {
     @Override
     public BoundaryRectangle getBoundingBox() {
         BoundaryRectangle r = label.getBoundingBox();
-        return new BoundaryRectangle(
-            getX(), getY(),
-            getWidth() * 2 + r.getWidth(),
-            Math.max(getHeight(), r.getHeight())
-        );
+        return new BoundaryRectangle(getX(), getY(), getWidth() * 2 + r.getWidth(),
+                Math.max(getHeight(), r.getHeight()));
     }
 
     @Override
     public boolean contains(int x, int y) {
         return getBoundingBox().contains(x, y);
+    }
+
+    public Color getColor() {
+        try {
+            return ((Line) label).getColor();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public void setColor(Color color) {
+        try {
+            // Only capable to deal with Line
+            ((Line) label).setColor(color);
+        } catch (Exception e) {
+        }
     }
 }

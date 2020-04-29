@@ -31,7 +31,7 @@ public class LayoutGroup implements Group {
     private List<Behavior> behaviors = new ArrayList<>();
     private List<Behavior> behaviorsToAdd = new ArrayList<>();
     private List<Behavior> behaviorsToRemove = new ArrayList<>();
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
 
     public static final int HORIZONTAL = 0;
     public static final int VERTICAL = 1;
